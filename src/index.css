@@ -1,0 +1,38 @@
+@import "tailwindcss";
+@tailwind utilities;
+
+@property --rotate {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+@keyframes rotate-animation {
+    0% { --rotate: 0deg; }
+    100% { --rotate: 360deg; }
+}
+
+.glowing-border-wrapper {
+    padding: 3px;
+    border-radius: 11px; /* 8px (content) + 3px (padding) */
+    background: conic-gradient(
+            from var(--rotate),
+            #00c6ff, #e23ee2, #92fe9d, #00c6ff
+    );
+    animation: rotate-animation 4s linear infinite;
+    position: fixed; /* 必须是 fixed 才能用于 portal */
+    z-index: 50;
+    transition: opacity 0.075s ease-out;
+}
+
+.glowing-border-wrapper::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: -5px;
+    border-radius: inherit;
+    background: inherit;
+    animation: inherit;
+    filter: blur(10px);
+    opacity: 0.6;
+}
