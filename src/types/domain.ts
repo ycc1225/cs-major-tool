@@ -2,6 +2,7 @@ export interface Participant {
   id: string;
   name: string;
   seed: number; //种子序号
+  logoUrl?: string;
   wins: number;
   losses: number;
   buchholz: number; //BU分

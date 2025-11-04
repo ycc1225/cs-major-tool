@@ -77,12 +77,24 @@ export const MatchCard: React.FC<MatchCardProps> = ({
             onClick={() => handleTeamClick(match.participant1)}
             title={getTeamName(match.participant1)}
           >
-            <div
-              className={clsx(
-                'w-5 h-5 bg-[#555] rounded-sm shrink-0',
-                innerElementClasses(p1Winner)
-              )}
-            ></div>
+            {/*战队logo*/}
+            {match.participant1.logoUrl ? (
+              <img
+                src={match.participant1.logoUrl}
+                alt={match.participant1.name}
+                className={clsx(
+                  'w-5 h-5 object-contain',
+                  innerElementClasses(p1Winner)
+                )}
+              />
+            ) : (
+              <div
+                className={clsx(
+                  'w-5 h-5 bg-[#555] rounded-sm shrink-0',
+                  innerElementClasses(p1Winner)
+                )}
+              ></div>
+            )}
             <span
               className={clsx(
                 'text-center word-break-word leading-tight text-xs',
@@ -118,12 +130,24 @@ export const MatchCard: React.FC<MatchCardProps> = ({
             onClick={() => handleTeamClick(match.participant2)}
             title={getTeamName(match.participant2)}
           >
-            <div
-              className={clsx(
-                'w-5 h-5 bg-[#555] rounded-sm shrink-0',
-                innerElementClasses(p2Winner)
-              )}
-            ></div>
+            {/*战队logo*/}
+            {match.participant2.logoUrl ? (
+              <img
+                src={match.participant2.logoUrl}
+                alt={match.participant2.name}
+                className={clsx(
+                  'w-5 h-5 object-contain',
+                  innerElementClasses(p2Winner)
+                )}
+              />
+            ) : (
+              <div
+                className={clsx(
+                  'w-5 h-5 bg-[#555] rounded-sm shrink-0',
+                  innerElementClasses(p2Winner)
+                )}
+              ></div>
+            )}
             <span
               className={clsx(
                 'text-center word-break-word leading-tight text-xs',

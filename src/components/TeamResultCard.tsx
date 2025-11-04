@@ -44,7 +44,15 @@ export const TeamResultCard: React.FC<TeamResultCardProps> = ({
     >
       <div className={cardClasses} title={participant.name}>
         <div className="flex items-center gap-2">
-          <div className="w-5 h-5 bg-[#555] rounded-sm shrink-0"></div>
+          {participant.logoUrl ? (
+            <img
+              src={participant.logoUrl}
+              alt={participant.name}
+              className="w-5 h-5 object-contain"
+            />
+          ) : (
+            <div className="w-5 h-5 bg-[#555] rounded-sm shrink-0"></div>
+          )}
           <span className={teamNameClasses}>{participant.name}</span>
         </div>
 
