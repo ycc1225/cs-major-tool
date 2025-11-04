@@ -1,0 +1,52 @@
+# 工作流名称
+name: Deploy to GitHub Pages
+
+# 触发条件：当推送到 'main' 分支时运行
+on:
+  push:
+    branches:
+      - main
+
+# 权限：允许此工作流写入 gh-pages 分支
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 作业：定义一个名为 'deploy' 的作业
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    # 运行在最新的 ubuntu 系统上
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
