@@ -211,7 +211,7 @@ export const TeamTooltip: React.FC<TeamTooltipProps> = ({
   }, [isVisible, participant.id, allMatches, allParticipants, matchRound]); // 依赖 isVisible 和 participant.id (确保重算)
 
   // 克隆 (卡片) 并附加 ref 和 hover 事件
-  const trigger = React.cloneElement(children, {
+  const trigger = React.cloneElement(children as React.ReactElement<any>, {
     ref: triggerRef,
     onMouseEnter: () => setIsVisible(true),
     onMouseLeave: () => {

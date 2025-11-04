@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useTournamentStore } from './store/useTournamentStore';
 import { sampleMajorConfig } from './config/sampleMajor.config';
 import { RoundColumn } from './features/RoundColumn';
@@ -15,7 +15,7 @@ function App() {
   const clearPrediction = useTournamentStore((state) => state.clearPrediction);
 
   // 在组件首次加载时，调用 Action 来加载数据并生成 R1
-  useEffect(() => {
+  React.useEffect(() => {
     loadAndSimulate(sampleMajorConfig);
   }, [loadAndSimulate]);
 

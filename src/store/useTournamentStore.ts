@@ -15,7 +15,6 @@ interface State {
 
 interface Actions {
   loadAndSimulateDefault: (config: TournamentConfig) => void;
-  updateScore: (matchId: string, score1: number, score2: number) => void;
   updatePrediction: (
     clickedMatchId: string,
     newWinnerId: string,
@@ -91,7 +90,7 @@ export const useTournamentStore = create<State & Actions>((set, get) => {
     tournament: initialEmptyState,
     predictionTournament: null,
     engine: engineInstance,
-    currentRound: 0,
+    predictionChanges: new Map(),
     // --- Actions ---
     // 加载默认对局并默认左边获胜
     loadAndSimulateDefault: (config) => {
