@@ -57,7 +57,7 @@ export const MatchCard: React.FC<MatchCardProps> = ({
       // 如果未预测且已完成，所有元素变暗
       !isPredicting && isCompleted && 'opacity-70',
       // 如果已完成且是失败者，额外变暗
-      isCompleted && !isWinner && 'opacity-50'
+      isCompleted && !isWinner && 'opacity-20'
     );
 
   const p1Winner = match.result.winnerId === match.participant1?.id;

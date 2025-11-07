@@ -40,6 +40,10 @@ export interface StageConfig {
     // 本阶段使用的排名策略 (e.g., 'buchholz')
     rankingStrategy: string;
   };
+  singleElimination?: {
+    winsToAdvance: number;
+    lossesToEliminate: number;
+  };
 }
 
 // 锦标赛的定义（从配置文件中读取）

@@ -1,12 +1,8 @@
 import type { TournamentConfig } from '../types/domain';
 
-/**
- * PGL Copenhagen 2024 (Opening Stage) 的示例配置
- * (队伍是虚构的种子排名)
- */
-export const sampleMajorConfig: TournamentConfig = {
-  id: 'pgl_copenhagen_2024',
-  name: 'PGL Copenhagen 2024 - Opening Stage',
+export const AustinMajorSwissConfig: TournamentConfig = {
+  id: 'blast_austin_2025',
+  name: 'BLAST.TV Austin Major 2025',
 
   // 初始的16支队伍
   participants: [
@@ -175,7 +171,7 @@ export const sampleMajorConfig: TournamentConfig = {
   // 阶段定义
   stages: [
     {
-      id: 'stage_1_swiss',
+      id: 'stage_3_swiss',
       name: 'Opening Stage - Swiss',
       format: 'swiss',
       swiss: {

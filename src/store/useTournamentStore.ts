@@ -1,7 +1,9 @@
 import type { TournamentConfig, TournamentState } from '../types/domain.ts';
-import { TournamentEngine } from '../core/engine.ts';
+import { SwissEngine } from '../core/SwissEngine.ts';
 import { create } from 'zustand/react';
-import { sampleMajorConfig } from '../config/sampleMajor.config.ts';
+import { AustinMajorSwissConfig } from '../config/AustinMajorSwissConfig.ts';
+import type { ITournamentEngine } from '../core/ITournamentEngine.ts';
+import { PlayoffEngine } from '../core/PlayoffEngine.ts';
 
 // 记录用户自定义更改的表，结构为Map<Round,Map<MatchID,WinnerID>>
 type PredictionChanges = Map<number, Map<string, string>>;
@@ -10,11 +12,11 @@ interface State {
   tournament: TournamentState; // 初始默认状态
   predictionChanges: PredictionChanges;
   predictionTournament: TournamentState | null; // 用户自行修改的预测状态
-  engine: TournamentEngine;
+  engine: ITournamentEngine;
 }
 
 interface Actions {
-  loadAndSimulateDefault: (config: TournamentConfig) => void;
+  loadTournament: (config: TournamentConfig) => void;
   updatePrediction: (
     clickedMatchId: string,
     newWinnerId: string,
@@ -23,9 +25,14 @@ interface Actions {
   clearPrediction: () => void;
 }
 
+const engineFactory = new Map<string, () => ITournamentEngine>([
+  ['swiss', () => new SwissEngine()],
+  ['single-elimination', () => new PlayoffEngine()],
+]);
+
 // 运行模拟
 const runFullSimulation = (
-  engine: TournamentEngine,
+  engine: ITournamentEngine,
   config: TournamentConfig,
   overrideResults: Map<string, string | null>
 ): TournamentState => {
@@ -36,8 +43,14 @@ const runFullSimulation = (
     matches: [],
   };
   let currentRound = 0;
+  const maxRound =
+    config.stages[0].format === 'swiss'
+      ? 5
+      : config.stages[0].format === 'single-elimination'
+        ? 3
+        : 5;
 
-  while (currentRound < 5) {
+  while (currentRound < maxRound) {
     const nextRound = currentRound + 1;
     const stateAfterGen = engine.generateNextRound(
       simulatedState,
@@ -76,26 +89,34 @@ const runFullSimulation = (
 
 export const useTournamentStore = create<State & Actions>((set, get) => {
   const initialEmptyState: TournamentState = {
-    config: sampleMajorConfig,
+    config: AustinMajorSwissConfig,
     currentStageIndex: 0,
-    participants: sampleMajorConfig.participants,
+    participants: AustinMajorSwissConfig.participants,
     matches: [],
   };
 
   // 创建引擎实例
-  const engineInstance = new TournamentEngine();
+  const initialEngine = new SwissEngine();
   // 返回 Store 的 State 和 Actions
   return {
     // --- State ---
     tournament: initialEmptyState,
     predictionTournament: null,
-    engine: engineInstance,
+    engine: initialEngine,
     predictionChanges: new Map(),
     // --- Actions ---
     // 加载默认对局并默认左边获胜
-    loadAndSimulateDefault: (config) => {
-      const initialState = runFullSimulation(engineInstance, config, new Map());
+    loadTournament: (config) => {
+      const stageFormat = config.stages[0].format;
+      const engineCreator = engineFactory.get(stageFormat);
+      if (!engineCreator) {
+        console.error(`加载失败，无法找到${stageFormat}对应引擎`);
+        return;
+      }
+      const newEngine = engineCreator();
+      const initialState = runFullSimulation(newEngine, config, new Map());
       set({
+        engine: newEngine,
         tournament: initialState,
         predictionChanges: new Map(),
         predictionTournament: null,

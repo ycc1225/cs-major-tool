@@ -2,7 +2,7 @@ import type {
   IProgressionStrategy,
   Participant,
   StageConfig,
-} from '../../types/domain.ts';
+} from '../../../types/domain.ts';
 
 type ProgressionResult = {
   advanced: Participant[];

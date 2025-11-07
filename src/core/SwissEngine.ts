@@ -6,15 +6,16 @@ import type {
   Participant,
   TournamentState,
 } from '../types/domain.ts';
-import { BuchholzRankingStrategy } from './strategies/BuchholzRankingStrategy.ts';
-import { SeedBasedPairingStrategy } from './strategies/SeedBasedPairingStrategy.ts';
-import { PoolSeedGreedyPairingStrategy } from './strategies/PoolSeedPairingStrategy.ts';
-import { BuchholzPairingStrategy } from './strategies/BuchholzPairingStrategy.ts';
-import { SwissProgressionStrategy } from './strategies/SwissProgressionStrategy.ts';
+import { BuchholzRankingStrategy } from './strategies/swiss/BuchholzRankingStrategy.ts';
+import { SwissSeedBasedPairingStrategy } from './strategies/swiss/SwissSeedBasedPairingStrategy.ts';
+import { PoolSeedGreedyPairingStrategy } from './strategies/swiss/PoolSeedPairingStrategy.ts';
+import { BuchholzPairingStrategy } from './strategies/swiss/BuchholzPairingStrategy.ts';
+import { SwissProgressionStrategy } from './strategies/swiss/SwissProgressionStrategy.ts';
+import type { ITournamentEngine } from './ITournamentEngine.ts';
 
 // 引擎，用于将定义的策略组合为完整的规则
 // 无状态服务，所有函数均为纯函数，必须返回新的状态对象
-export class TournamentEngine {
+export class SwissEngine implements ITournamentEngine {
   // 策略注册表
   private rankingStrategies = new Map<string, IRankingStrategy>();
   private pairingStrategies = new Map<string, IPairingStrategy>();
@@ -29,7 +30,7 @@ export class TournamentEngine {
     this.rankingStrategies.set('buchholz', new BuchholzRankingStrategy());
 
     // 配对策略
-    this.pairingStrategies.set('seed_1v9', new SeedBasedPairingStrategy());
+    this.pairingStrategies.set('seed_1v9', new SwissSeedBasedPairingStrategy());
     this.pairingStrategies.set(
       'seed_greedy',
       new PoolSeedGreedyPairingStrategy()

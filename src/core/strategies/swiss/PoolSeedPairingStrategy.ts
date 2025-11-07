@@ -1,4 +1,8 @@
-import type { Participant, Match, IPairingStrategy } from '../../types/domain';
+import type {
+  Participant,
+  Match,
+  IPairingStrategy,
+} from '../../../types/domain.ts';
 
 export class PoolSeedGreedyPairingStrategy implements IPairingStrategy {
   /**

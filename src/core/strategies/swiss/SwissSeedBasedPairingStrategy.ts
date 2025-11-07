@@ -1,10 +1,14 @@
-import type { Participant, Match, IPairingStrategy } from '../../types/domain';
+import type {
+  Participant,
+  Match,
+  IPairingStrategy,
+} from '../../../types/domain.ts';
 
 /**
  * 实现了 IPairingStrategy 接口，用于瑞士轮第 1 轮。
  * 按种子排名 (1v9, 2v10...) 进行配对。
  */
-export class SeedBasedPairingStrategy implements IPairingStrategy {
+export class SwissSeedBasedPairingStrategy implements IPairingStrategy {
   /**
    * 为第一轮生成对局
    * @param participantsInPool - 应该是所有 0-0 的参与者 (16队)
@@ -22,7 +26,7 @@ export class SeedBasedPairingStrategy implements IPairingStrategy {
     const halfSize = sortedParticipants.length / 2;
     if (sortedParticipants.length % 2 !== 0) {
       console.warn(
-        'SeedBasedPairingStrategy: 参与者数量为奇数，这不符合标准瑞士轮。'
+        'SwissSeedBasedPairingStrategy: 参与者数量为奇数，这不符合标准瑞士轮。'
       );
       return matches;
     }

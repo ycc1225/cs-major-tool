@@ -1,4 +1,4 @@
-import type { Participant, IRankingStrategy } from '../../types/domain';
+import type { Participant, IRankingStrategy } from '../../../types/domain.ts';
 
 export class BuchholzRankingStrategy implements IRankingStrategy {
   /**

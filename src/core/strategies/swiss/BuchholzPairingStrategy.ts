@@ -2,7 +2,7 @@ import type {
   IPairingStrategy,
   Match,
   Participant,
-} from '../../types/domain.ts';
+} from '../../../types/domain.ts';
 
 type PairIndices = [number, number];
 type PrioritySet6 = [PairIndices, PairIndices, PairIndices];
