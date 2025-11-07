@@ -1,9 +1,14 @@
-import type { TournamentConfig, TournamentState } from '../types/domain.ts';
+import type {
+  Participant,
+  TournamentConfig,
+  TournamentState,
+} from '../types/domain.ts';
 import { SwissEngine } from '../core/SwissEngine.ts';
 import { create } from 'zustand/react';
 import { AustinMajorSwissConfig } from '../config/AustinMajorSwissConfig.ts';
 import type { ITournamentEngine } from '../core/ITournamentEngine.ts';
 import { PlayoffEngine } from '../core/PlayoffEngine.ts';
+import { AustinPlayoffConfig } from '../config/AustinMajorPlayoff.config.ts';
 
 // 记录用户自定义更改的表，结构为Map<Round,Map<MatchID,WinnerID>>
 type PredictionChanges = Map<number, Map<string, string>>;
@@ -23,12 +28,30 @@ interface Actions {
     clickedRound: number
   ) => void;
   clearPrediction: () => void;
+  advanceToNextStage: () => void;
 }
 
 const engineFactory = new Map<string, () => ITournamentEngine>([
   ['swiss', () => new SwissEngine()],
   ['single-elimination', () => new PlayoffEngine()],
 ]);
+
+/**
+ * 比较函数 (晋级)
+ * 1. 胜负差 (3-0 > 3-1 > 3-2)
+ * 2. 难度分 (降序)
+ * 3. 初始种子 (升序)
+ */
+export const compareAdvancedRankings = (a: Participant, b: Participant) => {
+  if (a.losses !== b.losses) return a.losses - b.losses; // 负场越少越好
+  if (a.buchholz !== b.buchholz) return b.buchholz - a.buchholz;
+  return a.seed - b.seed;
+};
+export const compareEliminatedRankings = (a: Participant, b: Participant) => {
+  if (a.wins !== b.wins) return b.wins - a.wins; // 胜场越多越好
+  if (a.buchholz !== b.buchholz) return b.buchholz - a.buchholz;
+  return a.seed - b.seed;
+};
 
 // 运行模拟
 const runFullSimulation = (
@@ -158,6 +181,34 @@ export const useTournamentStore = create<State & Actions>((set, get) => {
         predictionChanges: new Map(),
         predictionTournament: null,
       });
+    },
+    advanceToNextStage: () => {
+      const { tournament, predictionTournament } = get();
+      const activeTournament = predictionTournament ?? tournament;
+      const currentConfig = activeTournament.config;
+      const currentStage = currentConfig.stages[0];
+      const winsToAdvance = currentStage.swiss?.winsToAdvance ?? 3;
+      const advancingParticipants = activeTournament.participants.filter(
+        (p) => p.wins === winsToAdvance
+      );
+      const sortedAdvancingTeams = advancingParticipants.sort(
+        compareAdvancedRankings
+      );
+      const newPlayoffParticipants = sortedAdvancingTeams.map(
+        (team, index) => ({
+          ...team,
+          seed: index + 1, // 新种子
+          wins: 0,
+          losses: 0,
+          buchholz: 0,
+          playedOpponentIds: [],
+        })
+      );
+      const newPlayoffConfig: TournamentConfig = {
+        ...AustinPlayoffConfig,
+        participants: newPlayoffParticipants,
+      };
+      get().loadTournament(newPlayoffConfig);
     },
   };
 });

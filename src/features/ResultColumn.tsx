@@ -1,24 +1,10 @@
 import React, { useMemo } from 'react';
-import { useTournamentStore } from '../store/useTournamentStore';
-import type { Participant } from '../types/domain.ts';
+import {
+  compareAdvancedRankings,
+  compareEliminatedRankings,
+  useTournamentStore,
+} from '../store/useTournamentStore';
 import { TeamResultCard } from '../components/TeamResultCard.tsx';
-
-/**
- * 比较函数 (晋级)
- * 1. 胜负差 (3-0 > 3-1 > 3-2)
- * 2. 难度分 (降序)
- * 3. 初始种子 (升序)
- */
-const compareAdvancedRankings = (a: Participant, b: Participant) => {
-  if (a.losses !== b.losses) return a.losses - b.losses; // 负场越少越好
-  if (a.buchholz !== b.buchholz) return b.buchholz - a.buchholz;
-  return a.seed - b.seed;
-};
-const compareEliminatedRankings = (a: Participant, b: Participant) => {
-  if (a.wins !== b.wins) return b.wins - a.wins; // 胜场越多越好
-  if (a.buchholz !== b.buchholz) return b.buchholz - a.buchholz;
-  return a.seed - b.seed;
-};
 
 export const ResultsColumn: React.FC = () => {
   const activeTournament = useTournamentStore(

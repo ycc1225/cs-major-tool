@@ -39,6 +39,9 @@ function App() {
 
   const loadSwiss = () => loadTournament(AustinMajorSwissConfig);
   const loadPlayoff = () => loadTournament(AustinPlayoffConfig);
+  const advanceToNextStage = useTournamentStore(
+    (state) => state.advanceToNextStage
+  );
 
   return (
     <div className="min-h-screen bg-[#121212] text-gray-200 p-4">
@@ -85,7 +88,18 @@ function App() {
         >
           加载 淘汰赛 (Playoff)
         </button>
-        <button>加载 下一轮</button>
+        {/* 只在 'swiss' 模式下显示   */}
+        {format === 'swiss' && (
+          <>
+            <button
+              onClick={advanceToNextStage}
+              className="py-2 px-4 rounded-lg text-black font-semibold bg-green-500 hover:bg-green-400"
+              title="使用当前（或预测的）结果开始淘汰赛"
+            >
+              ➡️ 前往下一轮
+            </button>
+          </>
+        )}
       </div>
       <div>
         {format === 'swiss' && <SwissView />}
