@@ -5,7 +5,7 @@ import type { TournamentConfig } from '../types/domain';
  */
 export const AustinPlayoffConfig: TournamentConfig = {
   id: 'blast_austin_2025',
-  name: 'BLAST.TV Austin Major 2024 - Playoffs',
+  name: 'BLAST.TV Austin Major 2025 - Playoffs',
 
   // 初始的 8 支队伍
   participants: [
