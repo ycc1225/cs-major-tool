@@ -48,6 +48,15 @@ export class PlayoffSeedBasedPairingStrategy implements IPairingStrategy {
       matches.push(newMatch);
     }
 
+    // 对于八强赛，我们需要交换M2和M4
+    if (count === 8) {
+      const reorderedMatches = [...matches];
+      const temp = reorderedMatches[1];
+      reorderedMatches[1] = reorderedMatches[3];
+      reorderedMatches[3] = temp;
+      return reorderedMatches;
+    }
+
     return matches;
   }
 }

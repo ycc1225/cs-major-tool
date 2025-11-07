@@ -49,6 +49,7 @@ export class PlayoffEngine implements ITournamentEngine {
       playedOpponentIds: [...p1.playedOpponentIds, p2.id],
       wins: p1.id === winner.id ? p1.wins + 1 : p1.wins,
       losses: p1.id === loser.id ? p1.losses + 1 : p1.losses,
+      seed: p1.seed > p2.seed ? p2.seed : p1.seed,
     };
 
     const updatedP2: Participant = {
@@ -56,6 +57,7 @@ export class PlayoffEngine implements ITournamentEngine {
       playedOpponentIds: [...p2.playedOpponentIds, p1.id],
       wins: p2.id === winner.id ? p2.wins + 1 : p2.wins,
       losses: p2.id === loser.id ? p2.losses + 1 : p2.losses,
+      seed: p2.seed > p1.seed ? p1.seed : p2.seed,
     };
 
     const newMatches = currentState.matches.map((m) =>
