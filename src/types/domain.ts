@@ -44,7 +44,7 @@ export interface StageConfig {
     winsToAdvance: number;
     lossesToEliminate: number;
   };
-  results: Match[];
+  results: Map<number, Map<string, string>>;
 }
 
 // 锦标赛的定义（从配置文件中读取）

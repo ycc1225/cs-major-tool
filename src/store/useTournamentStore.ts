@@ -9,6 +9,7 @@ import { AustinMajorSwissConfig } from '../config/AustinMajorSwissConfig.ts';
 import type { ITournamentEngine } from '../core/ITournamentEngine.ts';
 import { PlayoffEngine } from '../core/PlayoffEngine.ts';
 import { AustinPlayoffConfig } from '../config/AustinMajorPlayoff.config.ts';
+import { mapStringify } from '../utils/MapUtil.ts';
 
 // 记录用户自定义更改的表，结构为Map<Round,Map<MatchID,WinnerID>>
 type PredictionChanges = Map<number, Map<string, string>>;
@@ -62,7 +63,7 @@ const runFullSimulation = (
   let simulatedState: TournamentState = {
     config: config,
     currentStageIndex: 0,
-    participants: JSON.parse(JSON.stringify(config.participants)), // 对参赛者深拷贝
+    participants: JSON.parse(JSON.stringify(config.participants)), // 对参赛者深拷贝，防止污染config
     matches: [],
   };
   let currentRound = 0;
@@ -137,11 +138,22 @@ export const useTournamentStore = create<State & Actions>((set, get) => {
         return;
       }
       const newEngine = engineCreator();
-      const initialState = runFullSimulation(newEngine, config, new Map());
+      const results = config.stages[0].results;
+      const mergedOverrides = new Map<string, string | null>();
+      for (const [, roundChanges] of results.entries()) {
+        for (const [matchId, winnerId] of roundChanges.entries()) {
+          mergedOverrides.set(matchId, winnerId);
+        }
+      }
+      const initialState = runFullSimulation(
+        newEngine,
+        config,
+        mergedOverrides
+      );
       set({
         engine: newEngine,
         tournament: initialState,
-        predictionChanges: new Map(),
+        predictionChanges: results,
         predictionTournament: null,
       });
     },
@@ -151,8 +163,7 @@ export const useTournamentStore = create<State & Actions>((set, get) => {
       clickedRound: number
     ) => {
       const { tournament, engine, predictionChanges } = get();
-      const matches = tournament.matches;
-      console.log(JSON.stringify(matches));
+      console.log(mapStringify(predictionChanges));
       const newChanges: PredictionChanges = new Map(predictionChanges);
       // 先删除未来轮次的预测
       for (let i = clickedRound + 1; i <= 5; i++) {
@@ -179,8 +190,10 @@ export const useTournamentStore = create<State & Actions>((set, get) => {
       });
     },
     clearPrediction: () => {
+      const { tournament } = get();
+      const results = tournament.config.stages[0].results;
       set({
-        predictionChanges: new Map(),
+        predictionChanges: results,
         predictionTournament: null,
       });
     },

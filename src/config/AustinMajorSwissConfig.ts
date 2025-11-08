@@ -1,4 +1,5 @@
 import type { TournamentConfig } from '../types/domain';
+import { mapParse } from '../utils/MapUtil.ts';
 
 export const AustinMajorSwissConfig: TournamentConfig = {
   id: 'blast_austin_2025',
@@ -187,7 +188,9 @@ export const AustinMajorSwissConfig: TournamentConfig = {
           5: 'buchholz',
         },
       },
-      results: [],
+      results: mapParse(
+        `{"__type":"Map","data":[[1,{"__type":"Map","data":[["R1-P0-0-M1","t9"],["R1-P0-0-M2","t10"],["R1-P0-0-M3","t3"],["R1-P0-0-M4","t12"],["R1-P0-0-M5","t13"],["R1-P0-0-M8","t16"]]}],[2,{"__type":"Map","data":[["R2-P1-0-M2","t13"],["R2-P1-0-M4","t10"],["R2-P0-1-M2","t14"]]}],[3,{"__type":"Map","data":[["R3-P1-1-M1","t4"],["R3-P1-1-M2","t14"],["R3-P1-1-M3","t1"]]}],[4,{"__type":"Map","data":[["R4-P1-2-M3","t11"],["R4-P1-2-M1","t2"],["R4-P2-1-M2","t14"],["R4-P2-1-M1","t1"]]}],[5,{"__type":"Map","data":[["R5-P2-2-M1","t11"],["R5-P2-2-M2","t2"],["R5-P2-2-M3","t5"]]}]]}`
+      ),
     },
   ],
 };

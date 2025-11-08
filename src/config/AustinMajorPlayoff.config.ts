@@ -1,4 +1,5 @@
 import type { TournamentConfig } from '../types/domain';
+import { mapParse } from '../utils/MapUtil.ts';
 
 /**
  * 8 队单败淘汰赛的示例配置
@@ -102,7 +103,9 @@ export const AustinPlayoffConfig: TournamentConfig = {
         winsToAdvance: 3, // 8队 (R1), 4队 (R2), 2队 (R3) -> 3胜夺冠
         lossesToEliminate: 1, // 单败赛制
       },
-      results: [],
+      results: mapParse(
+        `{"__type":"Map","data":[[1,{"__type":"Map","data":[["Quarterfinal-M1","t2"],["Quarterfinal-M4","t1"],["Quarterfinal-M3","t5"],["Quarterfinal-M2","t11"]]}],[2,{"__type":"Map","data":[["Semifinal-M2","t5"],["Semifinal-M1","t1"]]}]]}`
+      ),
     },
   ],
 };

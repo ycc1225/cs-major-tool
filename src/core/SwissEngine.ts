@@ -183,8 +183,7 @@ export class SwissEngine implements ITournamentEngine {
     }
 
     let newMatches: Match[] = [];
-    for (const [poolName, participantsInPool] of pools.entries()) {
-      console.log(`为${poolName}池${nextRound}生成对阵...`);
+    for (const [, participantsInPool] of pools.entries()) {
       const matchesForPool = pairingStrategy.generateMatches(
         participantsInPool,
         nextRound

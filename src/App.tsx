@@ -57,7 +57,7 @@ function App() {
             <button
               onClick={clearPrediction}
               className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded"
-              title="返回“P1全胜”基础时间线"
+              title="返回原结果"
             >
               &times; 清除
             </button>
