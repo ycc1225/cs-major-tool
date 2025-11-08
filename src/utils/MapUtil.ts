@@ -11,7 +11,7 @@ interface SerializedMap {
  * @returns 包含 Map 信息的 JSON 字符串。
  */
 export function mapStringify(data: any): string {
-  return JSON.stringify(data, (key, value) => {
+  return JSON.stringify(data, (_, value) => {
     // 遇到 Map 实例时，将其转换为一个带有类型标记的普通对象。
     if (value instanceof Map) {
       return {
@@ -32,7 +32,7 @@ export function mapStringify(data: any): string {
  */
 export function mapParse<T>(jsonString: string): T {
   // 递归地使用 reviver 函数处理解析后的数据
-  return JSON.parse(jsonString, (key, value) => {
+  return JSON.parse(jsonString, (_, value) => {
     // 1. 检查是否是 Map 的数据结构标记
     if (typeof value === 'object' && value !== null && value.__type === 'Map') {
       const serializedMap = value as SerializedMap;
@@ -51,7 +51,7 @@ export function mapParse<T>(jsonString: string): T {
       });
 
       // 3. 使用恢复后的键值对重建 Map 实例
-      return new Map(entries);
+      return new Map(entries as Iterable<[any, any]>);
     }
 
     // 4. 返回其他值，继续正常的 JSON.parse 过程
