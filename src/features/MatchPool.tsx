@@ -23,11 +23,10 @@ export const MatchPool: React.FC<MatchPoolProps> = ({
 
   return (
     // 战绩池容器
-    <div className="mb-3">
+    <div className="mb-2">
       {' '}
-      {/* (mb-4) 战绩池之间的间距 */}
       {/* 战绩池标题 */}
-      <h3 className="text-lg font-semibold text-gray-300 mb-2 px-1">{title}</h3>
+      <h3 className="text-sm font-semibold text-gray-300 mb-2 px-1">{title}</h3>
       {/* 卡片列表容器 */}
       <div className="flex flex-col gap-1">
         {' '}

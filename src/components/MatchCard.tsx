@@ -36,7 +36,7 @@ export const MatchCard: React.FC<MatchCardProps> = ({
   };
   // --- 动态类名 ---
   const cardClasses = clsx(
-    'w-full min-h-[70px]',
+    'w-full min-h-[60px]',
     'flex justify-between items-center',
     'bg-[#2f2f2f] rounded-lg',
     'p-2 box-border',
@@ -47,7 +47,7 @@ export const MatchCard: React.FC<MatchCardProps> = ({
   const teamClasses = (isWinner: boolean) =>
     clsx(
       'flex flex-col items-center justify-center gap-1',
-      'w-[45%] min-h-[55px]',
+      'w-[45%] min-h-[45px]',
       'rounded-lg transition-colors',
       'cursor-pointer hover:bg-[#444]',
       isCompleted && isWinner && 'font-bold'
@@ -56,10 +56,8 @@ export const MatchCard: React.FC<MatchCardProps> = ({
   const innerElementClasses = (isWinner: boolean) =>
     clsx(
       'transition-opacity',
-      // 如果未预测且已完成，所有元素变暗
-      !isPredicting && isCompleted && 'opacity-70',
-      // 如果已完成且是失败者，额外变暗
-      isCompleted && !isWinner && 'opacity-20'
+      // 修改透明度规则，优化显示效果
+      isWinner ? 'opacity-70' : 'opacity-20'
     );
 
   const p1Winner = match.result.winnerId === match.participant1;

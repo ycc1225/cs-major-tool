@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
 import { useTournamentStore } from '../store/useTournamentStore';
 import { MatchPool } from './MatchPool';
-import type { Match } from '../types/domain.ts'; // 导入你创建的 MatchPool
+import type { Match } from '../types/domain.ts';
+import clsx from 'clsx'; // 导入你创建的 MatchPool
 
 interface RoundColumnProps {
   round: number;
@@ -53,19 +54,25 @@ export const RoundColumn: React.FC<RoundColumnProps> = ({ round }) => {
   }
 
   return (
-    <div className="flex flex-col bg-[#1e1e1e] p-3 rounded-lg min-w-[300px]">
+    <div
+      className={clsx(
+        'flex flex-col p-3 rounded-lg min-w-[300px]',
+        'bg-[#1e1e1e]'
+      )}
+    >
       <h2 className="text-xl font-bold mb-4 text-center">第 {round} 轮</h2>
-
-      {/* 渲染所有战绩池 */}
-      {sortedPoolKeys.map((poolKey) => (
-        <MatchPool
-          key={poolKey}
-          title={`战绩池 ${poolKey}`}
-          matches={pools[poolKey]}
-          allParticipants={allParticipants}
-          allMatches={allMatches}
-        />
-      ))}
+      <div className="flex flex-col justify-center gap-4 grow">
+        {/* 渲染所有战绩池 */}
+        {sortedPoolKeys.map((poolKey) => (
+          <MatchPool
+            key={poolKey}
+            title={`战绩池 ${poolKey}`}
+            matches={pools[poolKey]}
+            allParticipants={allParticipants}
+            allMatches={allMatches}
+          />
+        ))}
+      </div>
     </div>
   );
 };

@@ -40,7 +40,7 @@ export const ResultsColumn: React.FC = () => {
       <h2 className="text-xl font-bold mb-4 text-center">最终结果</h2>
 
       {/* 渲染晋级池 */}
-      <div className="mb-3">
+      <div className="mb-2">
         <h3 className="text-xl font-semibold text-green-400 mb-2 px-1">
           晋级 ({advancedTeams.length} / 8)
         </h3>

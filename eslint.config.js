@@ -1,4 +1,3 @@
-// eslint.config.js
 import globals from 'globals';
 import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
@@ -7,6 +6,9 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import prettierRecommended from 'eslint-plugin-prettier/recommended';
 
 export default [
+  {
+    ignorePatterns: ['dist/', 'src/utils/', 'vite.config.ts'],
+  },
   // 1. 全局设置
   {
     files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'],
