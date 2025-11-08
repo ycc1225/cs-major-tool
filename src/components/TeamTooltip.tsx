@@ -34,9 +34,9 @@ const TooltipContent: React.FC<TooltipContentProps> = ({
     for (const match of allMatches) {
       if (match.round === matchRound) {
         if (match.participant1)
-          opponentMatchInThisRoundMap.set(match.participant1.id, match);
+          opponentMatchInThisRoundMap.set(match.participant1, match);
         if (match.participant2)
-          opponentMatchInThisRoundMap.set(match.participant2.id, match);
+          opponentMatchInThisRoundMap.set(match.participant2, match);
       }
     }
 

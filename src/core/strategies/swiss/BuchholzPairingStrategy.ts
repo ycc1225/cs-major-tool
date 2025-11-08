@@ -80,8 +80,8 @@ export class BuchholzPairingStrategy implements IPairingStrategy {
     return {
       id: `R${round}-P${a.wins}-${a.losses}-M${matchIndex}`,
       round: round,
-      participant1: a,
-      participant2: b,
+      participant1: a.id,
+      participant2: b.id,
       poolRecord: `${a.wins}-${a.losses}`,
       status: 'pending',
       result: {

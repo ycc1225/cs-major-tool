@@ -17,6 +17,8 @@ export const MatchCard: React.FC<MatchCardProps> = ({
   allParticipants,
   allMatches,
 }) => {
+  const p1 = allParticipants.find((p) => p.id === match.participant1)!;
+  const p2 = allParticipants.find((p) => p.id === match.participant2)!;
   const updatePrediction = useTournamentStore(
     (state) => state.updatePrediction
   );
@@ -29,7 +31,7 @@ export const MatchCard: React.FC<MatchCardProps> = ({
   const isChanged = predictionChanges.get(match.round)?.has(match.id) ?? false;
   const isCompleted = match.status === 'completed';
   const handleTeamClick = (winner: Participant | null) => {
-    if (!winner || !match.participant1 || !match.participant2) return;
+    if (!winner || !p1 || !p2) return;
     updatePrediction(match.id, winner.id, match.round);
   };
   // --- 动态类名 ---
@@ -60,28 +62,28 @@ export const MatchCard: React.FC<MatchCardProps> = ({
       isCompleted && !isWinner && 'opacity-20'
     );
 
-  const p1Winner = match.result.winnerId === match.participant1?.id;
-  const p2Winner = match.result.winnerId === match.participant2?.id;
+  const p1Winner = match.result.winnerId === match.participant1;
+  const p2Winner = match.result.winnerId === match.participant2;
 
   return (
     <div className={cardClasses}>
-      {match.participant1 ? (
+      {p1 ? (
         <TeamTooltip
-          participant={match.participant1}
+          participant={p1}
           allParticipants={allParticipants}
           allMatches={allMatches}
           matchRound={match.round}
         >
           <div
             className={teamClasses(p1Winner).trim()}
-            onClick={() => handleTeamClick(match.participant1)}
-            title={getTeamName(match.participant1)}
+            onClick={() => handleTeamClick(p1)}
+            title={getTeamName(p1)}
           >
             {/*战队logo*/}
-            {match.participant1.logoUrl ? (
+            {p1.logoUrl ? (
               <img
-                src={match.participant1.logoUrl}
-                alt={match.participant1.name}
+                src={p1.logoUrl}
+                alt={p1.name}
                 className={clsx(
                   'w-5 h-5 object-contain',
                   innerElementClasses(p1Winner)
@@ -101,7 +103,7 @@ export const MatchCard: React.FC<MatchCardProps> = ({
                 innerElementClasses(p1Winner)
               )}
             >
-              {getTeamName(match.participant1)}
+              {getTeamName(p1)}
             </span>
           </div>
         </TeamTooltip>
@@ -118,23 +120,23 @@ export const MatchCard: React.FC<MatchCardProps> = ({
         vs
       </span>
 
-      {match.participant2 ? (
+      {p2 ? (
         <TeamTooltip
-          participant={match.participant2}
+          participant={p2}
           allParticipants={allParticipants}
           allMatches={allMatches}
           matchRound={match.round}
         >
           <div
             className={teamClasses(p2Winner).trim()}
-            onClick={() => handleTeamClick(match.participant2)}
-            title={getTeamName(match.participant2)}
+            onClick={() => handleTeamClick(p2)}
+            title={getTeamName(p2)}
           >
             {/*战队logo*/}
-            {match.participant2.logoUrl ? (
+            {p2.logoUrl ? (
               <img
-                src={match.participant2.logoUrl}
-                alt={match.participant2.name}
+                src={p2.logoUrl}
+                alt={p2.name}
                 className={clsx(
                   'w-5 h-5 object-contain',
                   innerElementClasses(p2Winner)
@@ -154,7 +156,7 @@ export const MatchCard: React.FC<MatchCardProps> = ({
                 innerElementClasses(p2Winner)
               )}
             >
-              {getTeamName(match.participant2)}
+              {getTeamName(p2)}
             </span>
           </div>
         </TeamTooltip>

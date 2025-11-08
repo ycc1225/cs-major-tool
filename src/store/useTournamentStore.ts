@@ -90,13 +90,13 @@ const runFullSimulation = (
       // 从预测表中找到模拟结果，默认为左边的队伍获胜
       let winnerId: string | null = null;
       if (overrideResults.has(match.id)) {
-        winnerId = overrideResults.get(match.id) ?? match.participant1.id;
+        winnerId = overrideResults.get(match.id) ?? match.participant1;
       } else {
-        winnerId = match.participant1.id;
+        winnerId = match.participant1;
       }
 
-      const score1 = winnerId === match.participant1.id ? 1 : 0;
-      const score2 = winnerId === match.participant2.id ? 1 : 0;
+      const score1 = winnerId === match.participant1 ? 1 : 0;
+      const score2 = winnerId === match.participant2 ? 1 : 0;
       stateAfterSimulation = engine.updateMatchResult(
         stateAfterSimulation,
         match.id,
@@ -151,6 +151,8 @@ export const useTournamentStore = create<State & Actions>((set, get) => {
       clickedRound: number
     ) => {
       const { tournament, engine, predictionChanges } = get();
+      const matches = tournament.matches;
+      console.log(JSON.stringify(matches));
       const newChanges: PredictionChanges = new Map(predictionChanges);
       // 先删除未来轮次的预测
       for (let i = clickedRound + 1; i <= 5; i++) {

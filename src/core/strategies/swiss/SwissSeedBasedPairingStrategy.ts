@@ -38,8 +38,8 @@ export class SwissSeedBasedPairingStrategy implements IPairingStrategy {
       const newMatch: Match = {
         id: `R${round}-P${participant1.wins}-${participant1.losses}-M${i + 1}`,
         round: round,
-        participant1: participant1,
-        participant2: participant2,
+        participant1: participant1.id,
+        participant2: participant2.id,
         poolRecord: '0-0',
         status: 'pending',
         result: {

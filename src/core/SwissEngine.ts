@@ -59,10 +59,10 @@ export class SwissEngine implements ITournamentEngine {
     }
 
     const p1 = currentState.participants.find(
-      (p) => p.id === matchToUpdate.participant1!.id
+      (p) => p.id === matchToUpdate.participant1!
     );
     const p2 = currentState.participants.find(
-      (p) => p.id === matchToUpdate.participant2!.id
+      (p) => p.id === matchToUpdate.participant2!
     );
     if (!p1 || !p2) {
       console.error(`找不到Match ${matchId} 的参与者`);

@@ -29,8 +29,8 @@ export class PoolSeedGreedyPairingStrategy implements IPairingStrategy {
       const newMatch: Match = {
         id: `R${round}-P${participant1.wins}-${participant1.losses}-M${i + 1}`,
         round: round,
-        participant1: participant1,
-        participant2: participant2,
+        participant1: participant1.id,
+        participant2: participant2.id,
         poolRecord: `${participant1.wins}-${participant1.losses}`,
         status: 'pending',
         result: {

@@ -102,6 +102,7 @@ export const AustinPlayoffConfig: TournamentConfig = {
         winsToAdvance: 3, // 8队 (R1), 4队 (R2), 2队 (R3) -> 3胜夺冠
         lossesToEliminate: 1, // 单败赛制
       },
+      results: [],
     },
   ],
 };

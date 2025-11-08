@@ -36,8 +36,8 @@ export class PlayoffSeedBasedPairingStrategy implements IPairingStrategy {
       const newMatch: Match = {
         id: `${poolRecord}-M${i + 1}`,
         round: round,
-        participant1: participant1,
-        participant2: participant2,
+        participant1: participant1.id,
+        participant2: participant2.id,
         poolRecord: poolRecord,
         status: 'pending',
         result: {

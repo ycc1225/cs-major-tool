@@ -27,10 +27,8 @@ export const RoundColumn: React.FC<RoundColumnProps> = ({ round }) => {
     for (const match of roundMatches) {
       // 我们使用 participant1 的战绩作为池的 key
       // (因为瑞士轮同池的队伍战绩总是一样的)
-      const p1 = match.participant1;
-      if (!p1) continue;
 
-      const poolKey = `${p1.wins}-${p1.losses}`;
+      const poolKey = match.id.slice(4, 7);
 
       if (!grouped[poolKey]) {
         grouped[poolKey] = [];
@@ -42,7 +40,7 @@ export const RoundColumn: React.FC<RoundColumnProps> = ({ round }) => {
 
   // Major 瑞士轮的战绩池有固定的渲染顺序
   //    (2-0 总是在 1-1 上面)
-  const poolOrder = ['2-0', '1-1', '0-2', '2-1', '1-2', '2-2'];
+  const poolOrder = ['2-0', '1-1', '0-2', '2-1', '1-2', '2-2', '1-0', '0-1'];
 
   // 过滤和排序 key
   const sortedPoolKeys = Object.keys(pools).sort(

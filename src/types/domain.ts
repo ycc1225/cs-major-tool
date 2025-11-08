@@ -12,8 +12,8 @@ export interface Participant {
 export interface Match {
   id: string;
   round: number; // 第几轮
-  participant1: Participant | null;
-  participant2: Participant | null;
+  participant1: string;
+  participant2: string;
 
   poolRecord: string;
 
@@ -44,6 +44,7 @@ export interface StageConfig {
     winsToAdvance: number;
     lossesToEliminate: number;
   };
+  results: Match[];
 }
 
 // 锦标赛的定义（从配置文件中读取）
